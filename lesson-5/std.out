@@ -1,0 +1,9 @@
+enter any character
+stream = stdin, _UNIO_BUFFERE = 2 , _IO_LINE_BUF = 512 
+fully buffered, buffer size = 4096
+stream = stdout, _UNIO_BUFFERE = 2 , _IO_LINE_BUF = 512 
+fully buffered, buffer size = 4096
+stream = stderr, _UNIO_BUFFERE = 2 , _IO_LINE_BUF = 512 
+unbuffered, buffer size = 1
+stream = /etc/passwd, _UNIO_BUFFERE = 2 , _IO_LINE_BUF = 512 
+fully buffered, buffer size = 4096
