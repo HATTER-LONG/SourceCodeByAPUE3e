@@ -1,8 +1,7 @@
-#include <apue.h>
+#include "apue.h"
 
-int 
-main(void)
+int main(void)
 {
-	printf("uid = %d , gid = %d\n",(long )getuid(),(long)getpid());
-	exit(0);
+    printf("uid = %ld , gid = %ld\n", (long)getuid(), (long)getpid());
+    exit(0);
 }
