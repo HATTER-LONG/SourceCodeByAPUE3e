@@ -1,19 +1,17 @@
 #include "apue.h"
 
-int
-main(void)
+int main(void)
 {
-	char	*ptr;
-	size_t		size;
+    char* ptr;
+    size_t size;
 
-	if (chdir("/home/caolei/") < 0)
-		err_sys("chdir failed");
+    if (chdir("/home/caolei/") < 0)
+        err_sys("chdir failed");
 
-	ptr = path_alloc(&size);	/* our own function */
-	if (getcwd(ptr, size) == NULL)
-		err_sys("getcwd failed");
+    ptr = path_alloc(&size); /* our own function */
+    if (getcwd(ptr, size) == NULL)
+        err_sys("getcwd failed");
 
-	printf("cwd = %s\n", ptr);
-	exit(0);
+    printf("cwd = %s\n", ptr);
+    exit(0);
 }
-
