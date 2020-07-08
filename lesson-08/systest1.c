@@ -8,18 +8,19 @@ void pr_exit(int status)
         printf("normal termination , exut status = %d\n", WEXITSTATUS(status));
     else if (WIFSIGNALED(status))
 
-        printf("normal termination , exut status = %d\n", WTERMSIG(status),
+        printf("normal termination , exut status = %d\n", WTERMSIG(status)
 #ifdef WCOREDUMP
+                                                              ,
                WCOREDUMP(status) ? " (core file generated)" : "");
 #else
-               "");
+        );
 #endif
 
     else if (WIFSTOPPED(status))
         printf("child stopped, signal number = %d\n", WSTOPSIG(status));
 }
 
-int system(const char* cmdstring) /* version without signal handling */
+int m_system(const char* cmdstring) /* version without signal handling */
 {
     pid_t pid;
     int status;
@@ -56,17 +57,17 @@ int main(void)
 {
     int status;
 
-    if ((status = system("date")) < 0)
+    if ((status = m_system("date")) < 0)
         err_sys("system() error");
 
     pr_exit(status);
 
-    if ((status = system("nosuchcommand")) < 0)
+    if ((status = m_system("nosuchcommand")) < 0)
         err_sys("system() error");
 
     pr_exit(status);
 
-    if ((status = system("who; exit 44")) < 0)
+    if ((status = m_system("who; exit 44")) < 0)
         err_sys("system() error");
 
     pr_exit(status);
