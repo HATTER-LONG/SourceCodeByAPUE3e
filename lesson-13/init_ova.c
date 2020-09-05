@@ -1,58 +1,59 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <pthread.h>
 #include <signal.h>
-#include <fcntl.h>
-#include <syslog.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/resource.h>
+#include <syslog.h>
+#include <unistd.h>
 
-void daemonize(const char *cmd)
+
+void daemonize(const char* cmd)
 {
-    int                 i,fd0,fd1,fd2;
-    pid_t               pid;
-    struct rlimit       r1;
-    struct sigaction    sa;
+    int i, fd0, fd1, fd2;
+    pid_t pid;
+    struct rlimit r1;
+    struct sigaction sa;
     umask(0);
-    //»ñÈ¡ÎÄ¼şÃèÊö·û×î´óÖµ
-    getrlimit(RLIMIT_NOFILE,&r1);
-    //´´½¨×Ó½ø³Ì
-    if((pid = fork()) < 0)
+    //è·å–æ–‡ä»¶æè¿°ç¬¦æœ€å¤§å€¼
+    getrlimit(RLIMIT_NOFILE, &r1);
+    //åˆ›å»ºå­è¿›ç¨‹
+    if ((pid = fork()) < 0)
     {
-         perror("fork() error");
-         exit(0);
-    }
-    else if(pid > 0)  //Ê¹¸¸½ø³ÌÍË³ö
+        perror("fork() error");
         exit(0);
-    setsid();  //´´½¨»á»°
-   //´´½¨×Ó½ø³Ì±ÜÃâ»ñÈ¡ÖÕ¶Ë
+    }
+    else if (pid > 0) //ä½¿çˆ¶è¿›ç¨‹é€€å‡º
+        exit(0);
+    setsid(); //åˆ›å»ºä¼šè¯
+              //åˆ›å»ºå­è¿›ç¨‹é¿å…è·å–ç»ˆç«¯
     sa.sa_handler = SIG_IGN;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
-    sigaction(SIGHUP,&sa,NULL);
-    if((pid = fork()) < 0)
+    sigaction(SIGHUP, &sa, NULL);
+    if ((pid = fork()) < 0)
     {
-         perror("fork() error");
-         exit(0);
-    }
-    else if(pid > 0)
+        perror("fork() error");
         exit(0);
-   //ĞŞ¸ÄÄ¿Â¼
+    }
+    else if (pid > 0)
+        exit(0);
+    //ä¿®æ”¹ç›®å½•
     chdir("/");
-    //¹Ø±Õ²»ĞèÒªµÄÎÄ¼şÃèÊö·û
-    if(r1.rlim_max == RLIM_INFINITY)
+    //å…³é—­ä¸éœ€è¦çš„æ–‡ä»¶æè¿°ç¬¦
+    if (r1.rlim_max == RLIM_INFINITY)
         r1.rlim_max = 1024;
-    for(i=0;i<r1.rlim_max;++i)
+    for (i = 0; i < r1.rlim_max; ++i)
         close(i);
-    //´ò¿ªÎÄ¼şÃèÊö·û
-    fd0 = open("/dev/null",O_RDWR);
+    //æ‰“å¼€æ–‡ä»¶æè¿°ç¬¦
+    fd0 = open("/dev/null", O_RDWR);
     fd1 = dup(0);
     fd2 = dup(0);
-    openlog(cmd,LOG_CONS,LOG_DAEMON);
-    if(fd0 != 0 || fd1 != 1 || fd2 != 2)
+    openlog(cmd, LOG_CONS, LOG_DAEMON);
+    if (fd0 != 0 || fd1 != 1 || fd2 != 2)
     {
-        syslog(LOG_ERR,"unexpected file descriptors %d %d %d",fd0,fd1,fd2);
+        syslog(LOG_ERR, "unexpected file descriptors %d %d %d", fd0, fd1, fd2);
         exit(1);
     }
 }
@@ -60,6 +61,6 @@ void daemonize(const char *cmd)
 int main()
 {
     daemonize("ls");
-    sleep(30);  //Ö÷½ø³ÌĞİÃß£¬ÒÔ±ã²é¿´ÊØ»¤½ø³Ì×´Ì¬
+    sleep(30); //ä¸»è¿›ç¨‹ä¼‘çœ ï¼Œä»¥ä¾¿æŸ¥çœ‹å®ˆæŠ¤è¿›ç¨‹çŠ¶æ€
     exit(0);
 }
