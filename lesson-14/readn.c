@@ -13,10 +13,9 @@ readn(int fd, void* ptr, size_t n)
         {
             if (nleft == n)
                 return (-1); /* error, return -1 */
-            else
-                break; /* error, return amount read so far */
+            break;           /* error, return amount read so far */
         }
-        else if (nread == 0)
+        if (nread == 0)
         {
             break; /* EOF */
         }

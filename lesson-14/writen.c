@@ -13,10 +13,9 @@ writen(int fd, const void* ptr, size_t n)
         {
             if (nleft == n)
                 return (-1); /* error, return -1 */
-            else
-                break; /* error, return amount written so far */
+            break;           /* error, return amount written so far */
         }
-        else if (nwritten == 0)
+        if (nwritten == 0)
         {
             break;
         }
