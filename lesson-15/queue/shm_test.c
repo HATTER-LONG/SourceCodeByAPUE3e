@@ -7,11 +7,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-void myfun(int signum)
-{
-    printf("signal recive\n");
-    return;
-}
+void myfun(int signum) { printf("signal recive\n"); }
 
 int main(void)
 {

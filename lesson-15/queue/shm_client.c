@@ -11,11 +11,7 @@ struct mybuf
     int pid;
     char buf[124];
 };
-void myfun(int signum)
-{
-    printf("signal recive\n");
-    return;
-}
+void myfun(int signum) { printf("signal recive\n"); }
 int main()
 {
     pid_t pid;

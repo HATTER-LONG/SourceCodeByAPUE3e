@@ -11,7 +11,6 @@ void myfun(int signum)
         sleep(1);
         i++;
     }
-    return;
 }
 
 void myfun1(int signum)

@@ -13,11 +13,7 @@ struct mybuf
     char buf[124];
 };
 
-void myfun(int signum)
-{
-    printf("signal revive\n");
-    return;
-}
+void myfun(int signum) { printf("signal revive\n"); }
 
 int main(void)
 {
